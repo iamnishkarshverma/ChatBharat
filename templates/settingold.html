@@ -1,0 +1,76 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'assets/images/favicon.png' %}" rel="icon" type="image/png">
+    <title>Account Settings</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+
+</head>
+
+<body class="bg-gray-100">
+    <div class="container mx-auto p-6">
+        <h1 class="text-3xl font-semibold mb-6 text-purple-500">Account Settings</h1>
+
+        <div class="max-w-md mx-auto bg-white p-4 shadow-md rounded-lg  mb-5 border-1 ">
+            <!-- Profile Photo -->
+            <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="md:flex tracking-wide">
+                    <img class="w-20 h-20 rounded-full ring-1 ring-indigo-300" src="{{user_profile.profileimg.url}}" alt="profile img" width="200px"
+                        height="auto">
+                    <div class="ms-4">
+
+                        <p class="font-bold text-2xl">{{user.username}}</p>
+                        <div
+                            class="relative inline-block overflow-hidden rounded-lg bg-indigo-100 hover:bg-indigo-200 p-1 my-3 ">
+                            <label for="file-upload" class="px-4 py-2 font-bold text-indigo-600 cursor-pointer  ">
+                                Choose picture
+                            </label>
+                            <input type="file" name="image" id="file-upload"
+                                class="absolute inset-0 w-full h-full opacity-0 cursor-pointer ">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bio -->
+                <div class="mb-4">
+                    <label for=" " class="block text-base font-medium text-gray-600 text-indigo-600">Bio</label>
+                    <input name="bio"
+                        class="mt-1 p-2 block w-full border-1 border-gray-200 placeholder-indigo-400 rounded-lg "
+                        rows="4" placeholder="Write.." value="{{user_profile.bio}}"></input>
+                </div>
+
+                <!-- Location -->
+                <div class="mb-4">
+                    <label for="location" class="block text-base font-medium text-indigo-600">Location</label>
+                    <input name="location" type="text" id="location"
+                        class="mt-1 p-2 block w-full border-1 border-gray-200 focus:outline-none focus:border-indigo-500 placeholder-indigo-300 rounded-lg"
+                        placeholder="Enter your location" value="{{user_profile.location}}">
+                </div>
+
+                <!-- Save Button -->
+
+                <div class="grid grid-flow-col auto-cols-max space-x-2">
+                    <input type="submit"
+                        class="px-4 py-2 bg-indigo-600 font-semibold tracking-wide text-white rounded-lg hover:bg-indigo-600 hover:scale-95"
+                        value="Save">
+
+                    <input type="button">
+                    <a href="/" class="px-4 py-2 bg-indigo-600 font-semibold tracking-wide text-white rounded-lg
+                        hover:bg-indigo-600 hover:scale-95">Cancel
+                    </a>
+
+
+            </form>
+        </div>
+    </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,125 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <title>Profile - {{user_profile.user.username}}</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+    <!-- <style>
+        .sec { 
+            background: rgba(255, 255, 255, 0.5) !important; 
+            -webkit-backdrop-filter: blur(10px) !important;
+            backdrop-filter: blur(10px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.25) !important;
+        }
+        body{
+            background:url("https://cdn.pixabay.com/photo/2018/01/11/21/27/desk-3076954_1280.jpg") no-repeat fixed center;
+        }
+    </style> -->
+</head>
+
+<body class="bg-gray-100 font-sans ">
+    <main class="container xl:w-3/5 mx-auto mt-8 ">
+        <div class="p-3 md:p-16 lg:p-16 xl:p-16">
+            <div class="p-8 bg-white shadow mt-24 sec">
+                <form action="/follow" method="POST" class="grid grid-cols-1 md:grid-cols-3 ">
+                    {% csrf_token %}
+                    <div class="grid grid-cols-3 text-center order-last md:order-first mt-20 md:mt-0">
+                        <div>
+                            {% if user_post_length == 0 %}
+                            <p class="font-bold text-gray-700 text-xl">No</p>
+                            <p class="text-gray-400">Post</p>
+                            {% elif user_post_length == 1 %}
+                            <p class="font-bold text-gray-700 text-xl">1</p>
+                            <p class="text-gray-400">Post</p>
+                            {% else %}
+                            <p class="font-bold text-gray-700 text-xl">{{user_post_length}}</p>
+                            <p class="text-gray-400">Posts</p>
+                            {% endif %}
+                        </div>
+                        <div>
+                            {% if user_followers == 0 or user_followers == 1 %}
+                            <p class="font-bold text-gray-700 text-xl">{{user_followers}}</p>
+                            <p class="text-gray-400">follower</p>
+                            {% else %}
+                            <p class="font-bold text-gray-700 text-xl">{{user_followers}}</p>
+                            <p class="text-gray-400">followers</p>
+                            {% endif %}
+                        </div>
+                        <div>
+                            <p class="font-bold text-gray-700 text-xl">{{user_following}}</p>
+                            <p class="text-gray-400">following</p>
+                            <input type="hidden" value="{{user.username}}" name="follower">
+                            <input type="hidden" value="{{user_object.username}}" name="user">
+                            <input type="hidden" value="{{user.username}}" name="follower">
+                            <input type="hidden" value="{{user_object.username}}" name="user">
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <div
+                            class="w-40 h-40 bg-indigo-100 mx-auto rounded-full shadow-2xl absolute inset-x-0 top-0 -mt-24 flex items-center justify-center border-4 border-indigo-500">
+                            <img src="{{user_profile.profileimg.url}}" class="w-full h-full object-cover rounded-full"
+                                alt="">
+                        </div>
+                    </div>
+                    <div
+                        class="md:space-x-4 md:space-x-8 flex justify-between mt-32 md:mt-0 md:justify-center lg:justify-center">
+                        {% if user_object.username == user.username %}
+                        <a href="/settings" data-ripple="">
+                            <button type="button"
+                                class="text-white p-2 uppercase rounded bg-indigo-600 hover:bg-indigo-700 shadow hover:shadow-lg transition transform hover:-translate-y-0.5">
+
+                                Edit Profile
+
+                            </button>
+                        </a>
+                        {% else %}
+                        <button type="submit"
+                            class="text-white p-2 ms-3 uppercase rounded bg-indigo-600 hover:bg-indigo-700 shadow hover:shadow-lg  transition transform hover:-translate-y-0.5">
+                            <a>{{button_text}}</a>
+                        </button>
+                        {% endif %}
+                        <a href="/" data-ripple="">
+                            <button type="button"
+                                class="text-white p-2 uppercase rounded bg-indigo-600 hover:bg-indigo-700 shadow hover:shadow-lg transition transform hover:-translate-y-0.5">
+
+                                Home
+                            </button>
+                        </a>
+                    </div>
+                </form>
+                <div class="mt-20 text-center border-b pb-12">
+                    <h1 class="text-4xl font-medium text-gray-700">@{{user_profile.user.username}}</h1>
+                    <p class="font-light text-gray-600 mt-3">{{user_profile.location}}</p>
+                    <p class="mt-8 text-gray-500">{{user_profile.bio}}</p>
+                </div>
+                <!-- post section -->
+                <div class="mt-4 border-4">
+                    <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        <!-- Posts -->
+                        {% for post in user_posts %}
+                        <li class="bg-white p-4 shadow rounded">
+                            <!-- Post content goes here -->
+                            <a class="strip" href="{{post.image.url}}" title="" data-strip-group="mygroup"
+                                data-strip-group-options="loop: false">
+                                <img class="object-cover rounded h-full w-full" src="{{post.image.url}}"
+                                    style="height: 250px; width: 300px;" alt="">
+                            </a>
+                            {% endfor %}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script data-cfasync="false"
+        src="{% static '../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js' %}"></script>
+    <script src="{% static 'js/main.min.js' %}"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+
+</html>
